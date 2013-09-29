@@ -8,7 +8,7 @@ namespace {
     std::list<int> a = {1};
     std::list<int> b = {2};
 
-    std::list<std::tuple<int,int>> c = py::zip(a,b);
+    auto c = py::zip_new(a,b);
     EXPECT_EQ(1, c.size());
     EXPECT_EQ(1, std::get<0>(*c.begin()));
     EXPECT_EQ(2, std::get<1>(*c.begin()));
