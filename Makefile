@@ -2,32 +2,24 @@
 
 ## Author: log0@UBOX
 ## Version: $Id: Makefile,v 0.0 2013/09/28 23:27:53 log0 Exp $
-## Keywords: 
+## Keywords: C++ python
 ## X-URL: 
 
 -include Makefile.rules
 
-PROJ=
-SOURCE=
-BIN=
+PROJ=pyflavor
+SOURCE=./tests/builtin.cc
+BIN=runtest
 FILES= # src
 
 # C++ only
-VPATH=src:obj
-OBJ=$(SRC:.cc=.o)
+VPATH=tests
 
-all:
-	
+test: $(BIN)
+	./$(BIN)
 
-test: runtest
-	./runtest
-
-runtest: ./tests/builtin.cc
-	g++ ./tests/builtin.cc -Wall -std=c++0x -L /usr/src/gtest/ \
-	-lgtest -lpthread -o runtest
-
-doc:
-	
+$(BIN): $(SOURCE)
+	$(CCXX) $(SOURCE) $(CFLAGS) -L /usr/src/gtest/ -lgtest -lpthread -o $(BIN)
 
 clean:
 	rm -f $(BIN)
@@ -48,6 +40,13 @@ svn_check:
 	|| (echo "----------------------------------------------"\
 	&& echo "SOME FILES ARE MISSING FROM THE SVN REPOSITORY"\
 	&& echo "----------------------------------------------");
+
+git_check:
+	@git st --porcelain | grep '^??' ; [ $$? = "1" ] \
+	|| (echo "----------------------------------------------"\
+	&& echo "SOME FILES ARE MISSING FROM THE GIT REPOSITORY"\
+	&& echo "----------------------------------------------");
+
 
 todo:
 	grep "FIXME" -r . --exclude="Makefile" > TODO

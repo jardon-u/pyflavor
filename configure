@@ -1,0 +1,33 @@
+#!/bin/sh
+
+if [ -f Makefile.rules ]; then
+    rm Makefile.rules
+fi
+
+if command -v g++-4.7 >/dev/null 2>&1; then
+    echo "CCXX=g++-4.7" >> Makefile.rules
+else
+    echo "CCXX=`which g++`" >> Makefile.rules
+fi
+
+COMMON_FLAGS="-std=c++0x -Wall -Wextra"
+
+case `uname` in
+    "NetBSD" )
+	echo "CFLAGS=$COMMON_FLAGS" >> Makefile.rules
+	;;
+    "SunOS" )
+	echo "CFLAGS=$COMMON_FLAGS -m64" >> Makefile.rules
+	;;
+    "OSF1" )
+	echo "CFLAGS=-std=c++0x -w2 -std1 -warnprotos" >> Makefile.rules
+	;;
+    "Linux" )
+	echo "CFLAGS=$COMMON_FLAGS" >> Makefile.rules
+	;;
+    "MacOSX" )
+	echo "CFLAGS=$COMMON_FLAGS -fomit-frame-pointer" >> Makefile.rules
+	;;
+    "HP-UX" )
+	echo "CFLAGS=$COMMON_FLAGS" >> Makefile.rules
+esac
