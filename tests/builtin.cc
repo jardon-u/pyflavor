@@ -17,30 +17,30 @@ namespace py
   TEST(BuiltIn, range) {
     vector<int> v = {1, 2, 3, 4, 5};
     auto b = v.begin();
-    range< vector<int> > range(b + 1, b + 3);
-
-    EXPECT_TRUE(std::equal(b + 1, b + 3, range.begin()));
-    b = b + 1;
-    for (auto e : range)
-      EXPECT_EQ(*b++, e);
+    range< vector<int>::iterator > range(b + 1, b + 3);
+    ASSERT_TRUE(std::equal(b + 1, b + 3, range.begin()));
   }
 
   TEST(BuiltIn, transformed) {
-    vector<int> v = {1, 2, 3, 4, 5};
-    auto v2 = transformed(v, [](int i) { return i+1; });
+    auto expected = {2, 3, 4, 5, 6};
+    auto v = {1, 2, 3, 4, 5};
+    ASSERT_EQ(expected, v | [](int i) { return i+1; });
+  }
 
-    ASSERT_EQ(v2, v);
+  TEST(BuiltIn, for_transformed) {
+    auto expected = {2, 3, 4, 5, 6};
+    auto v = {1, 2, 3, 4, 5};
+
+    auto b = expected.begin();
+    for (auto e : v | [](int i) { return i+1; })
+      ASSERT_EQ(e, *b++);
   }
 
   TEST(BuiltIn, open) {
-    auto f = open("test.txt");
-    vector<string> v;
-    for (auto& e : f)
-      v.push_back(e);
     auto expected = {"test1 test1 test1 test1",
                      "test2 test2 test2",
                      "test3"};
-    EXPECT_TRUE(std::equal(v.begin(), v.end(), expected.begin()));
+    ASSERT_EQ(expected, open("test.txt"));
   }
 }
 
