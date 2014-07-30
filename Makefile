@@ -8,18 +8,19 @@
 -include Makefile.rules
 
 PROJ=pyflavor
-SOURCE=./tests/builtin.cc
+SOURCE=./tests/builtin.cc $(wildcard ./py/*.hh)
 BIN=runtest
 FILES= # src
 
 # C++ only
 VPATH=tests
 
-test: $(BIN)
-	./$(BIN)
 
 $(BIN): $(SOURCE)
-	$(CCXX) $(SOURCE) $(CFLAGS) -L /usr/src/gtest/ -lgtest -lpthread -o $(BIN)
+	$(CCXX) $(SOURCE) $(CFLAGS) /usr/lib/libgtest.a -lpthread -o $(BIN)
+
+test: $(BIN)
+	./$(BIN)
 
 clean:
 	rm -f $(BIN)
@@ -47,10 +48,14 @@ git_check:
 	&& echo "SOME FILES ARE MISSING FROM THE GIT REPOSITORY"\
 	&& echo "----------------------------------------------");
 
-
 todo:
 	grep "FIXME" -r . --exclude="Makefile" > TODO
 
+.deps:
+	g++ -MM $(CFLAGS) $(SRC:%=py/%) > .deps
+
 .PHONY: doc check
+
+-include .deps
 
 ### Makefile ends here
