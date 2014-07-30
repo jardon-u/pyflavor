@@ -4,13 +4,13 @@ if [ -f Makefile.rules ]; then
     rm Makefile.rules
 fi
 
-if command -v g++-4.7 >/dev/null 2>&1; then
-    echo "CCXX=g++-4.7" >> Makefile.rules
+if command -v g++-4.8 >/dev/null 2>&1; then
+    echo "CCXX=g++-4.8" >> Makefile.rules
 else
     echo "CCXX=`which g++`" >> Makefile.rules
 fi
 
-COMMON_FLAGS="-std=c++0x -Wall -Wextra"
+COMMON_FLAGS="-std=c++1y -Wall -Wextra"
 
 case `uname` in
     "NetBSD" )
