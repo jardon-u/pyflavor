@@ -1,53 +1,53 @@
 #ifndef _TRANSFORMED_HH
 # define _TRANSFORMED_HH
 
+# include <iterator>
+# include "range.hh"
+
 namespace py
 {
   template <typename I, typename F>
   struct transformed_iterator
   {
-    I iter_;
-    F f_;
+    I iter;
+    F f;
+
+    typedef std::input_iterator_tag iterator_category;
+    typedef decltype(f(*iter)) value_type;
+    typedef std::ptrdiff_t difference_type;
+    typedef value_type* pointer;
+    typedef value_type& reference;
 
     transformed_iterator(I iter, F f)
-      : iter_(iter), f_(f)
+      : iter(iter), f(f)
     {
     }
 
-    decltype(f_(*iter_)) operator*()  { return f_(*iter_); }
-    transformed_iterator& operator++() { ++iter_; return *this; }
+    decltype(f(*iter)) operator*()  { return f(*iter); }
+    transformed_iterator& operator++() { ++iter; return *this; }
     transformed_iterator operator++(int) { auto orig = *this; ++(*this); return orig; }
-  };
-
-template <typename T, typename F>
-  struct helper_ {
-typedef transformed_iterator<typename T::iterator, F> iterator;
-  };
-
-  template <typename T, typename F>
-  struct transformed_range : public range< helper_<T,F> >
-  {
-    //typedef typename T::iterator range_iterator;
-    typedef transformed_iterator<typename T::iterator, F> iterator;
-
-    transformed_range(T& r, F f)
-    //: begin_(r.begin(), f), end_(r.end(), f)
-      : range< helper_<T,F> >(iterator(r.begin(), f),
-                                        iterator(r.end(), f))
+    bool operator!=(transformed_iterator& x)
     {
+      return iter != x.iter;
     }
-
-    //iterator begin() { return begin_; };
-    //iterator end() { return end_; };
-
-    //iterator being_;
-    //iterator end_;
   };
 
   template <typename T, typename F>
-  transformed_range<T,F> transformed(T& range, F f)
+  auto transformed(T& range, F f)
   {
-    return transformed_range<T,F>(range, f);
+    //FIXME: check T has begin/end and F is_callable
+    typedef transformed_iterator<typename T::iterator, F> iterator;
+    return py::range<iterator>(iterator(range.begin(), f),
+                               iterator(range.end(), f));
+  }
+
+  template <typename T, typename F>
+  auto operator|(T& range, F f)
+  {
+    //FIXME: check T has begin/end and F is_callable
+    typedef transformed_iterator<typename T::iterator, F> iterator;
+    return py::range<iterator>(iterator(range.begin(), f),
+                               iterator(range.end(), f));
   }
 }
 
