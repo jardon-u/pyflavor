@@ -3,31 +3,26 @@
 #include <algorithm>
 #include <boost/iterator/zip_iterator.hpp>
 #include <boost/range.hpp>
+#include <iostream>
 
 namespace py
 {
-  /// Make a Zip out of N lists
-  template <typename ...T>
-  std::list<std::tuple<T...>> zip_new(std::list<T>... lst)
-  {
-    std::list<std::tuple<T...>>  result;
-    struct {
-      void operator()(std::list<std::tuple<T...>> &t, int c,
-                      typename std::list<T>::iterator ...it) {
-        if(c == 0) return;
-        t.emplace_back(std::move(*it++)...);
-        (*this)(t, c-1, it...);
-      }
-    } zip;
-    zip(result, std::min({lst.size()...}), lst.begin()...);
-    return result;
+  /// print
+  //FIXME: sep and end configurable
+  void print() {
+    std::cout << std::endl;
   }
-  std::list<std::tuple<>> zip_new() {
-    return {};
+  template <typename T, typename ...Args>
+  inline
+  void print(const T& value, const Args&... args)
+  {
+    std::cout << value << " ";
+    print(args...);
   }
 
   // Zip N containers
   template <typename... T>
+  inline
   auto zip(const T&... containers)
     -> boost::iterator_range<boost::zip_iterator<decltype(boost::make_tuple(std::begin(containers)...))>>
   {
