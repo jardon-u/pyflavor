@@ -1,66 +1,53 @@
 #ifndef _TRANSFORMED_HH
 # define _TRANSFORMED_HH
 
-# include <boost/range/adaptor/transformed.hpp>
-# include <boost/optional/optional.hpp>
 namespace py
 {
-
-#define RETURNS(...) -> decltype(__VA_ARGS__) { return (__VA_ARGS__); }
-
-  template<class Fun>
-  struct function_object
+  template <typename I, typename F>
+  struct transformed_iterator
   {
-    boost::optional<Fun> f;
+    I iter_;
+    F f_;
 
-    function_object()
-    {}
-    function_object(Fun f): f(f)
-    {}
-
-    function_object(const function_object & rhs) : f(rhs.f)
-    {}
-
-    // Assignment operator is just a copy construction, which does not provide
-    // the strong exception guarantee.
-    function_object& operator=(const function_object& rhs)
+    transformed_iterator(I iter, F f)
+      : iter_(iter), f_(f)
     {
-      if (this != &rhs)
-      {
-        this->~function_object();
-        new (this) function_object(rhs);
-      }
-      return *this;
     }
 
-    template<class F>
-    struct result
-    {};
+    decltype(f_(*iter_)) operator*()  { return f_(*iter_); }
+    transformed_iterator& operator++() { ++iter_; return *this; }
+    transformed_iterator operator++(int) { auto orig = *this; ++(*this); return orig; }
+  };
 
-    template<class F, class T>
-    struct result<F(T)>
+template <typename T, typename F>
+  struct helper_ {
+typedef transformed_iterator<typename T::iterator, F> iterator;
+  };
+
+  template <typename T, typename F>
+  struct transformed_range : public range< helper_<T,F> >
+  {
+    //typedef typename T::iterator range_iterator;
+    typedef transformed_iterator<typename T::iterator, F> iterator;
+
+    transformed_range(T& r, F f)
+    //: begin_(r.begin(), f), end_(r.end(), f)
+      : range< helper_<T,F> >(iterator(r.begin(), f),
+                                        iterator(r.end(), f))
     {
-      typedef decltype(std::declval<Fun>()(std::declval<T>())) type;
-    };
+    }
 
-    template<class T>
-    auto operator()(T && x) const RETURNS((*f)(std::forward<T>(x)))
+    //iterator begin() { return begin_; };
+    //iterator end() { return end_; };
 
-      template<class T>
-      auto operator()(T && x) RETURNS((*f)(std::forward<T>(x)))
-      };
+    //iterator being_;
+    //iterator end_;
+  };
 
-  template<class F>
-  function_object<F> make_function_object(F f)
+  template <typename T, typename F>
+  transformed_range<T,F> transformed(T& range, F f)
   {
-    return function_object<F>(f);
-  }
-
-  template <typename T>
-  auto transformed(const T& f)
-    -> decltype(boost::adaptors::transformed(make_function_object(f)))
-  {
-    return boost::adaptors::transformed(make_function_object(f));
+    return transformed_range<T,F>(range, f);
   }
 }
 
