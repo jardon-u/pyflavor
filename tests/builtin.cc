@@ -30,6 +30,17 @@ namespace {
 
     ASSERT_EQ(v2, v);
   }
+
+  TEST(BuiltIn, open) {
+    auto f = open("test.txt");
+    vector<string> v;
+    for (auto& e : f)
+      v.push_back(e);
+    auto expected = {"test1 test1 test1 test1",
+                     "test2 test2 test2",
+                     "test3"};
+    EXPECT_TRUE(std::equal(v.begin(), v.end(), expected.begin()));
+  }
 }
 
 int main(int argc, char **argv) {
