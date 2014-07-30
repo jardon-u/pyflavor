@@ -11,7 +11,7 @@ $ ./configure && make
 ```
 Documentation
 =============
-      
+
 Core language
 -------------
 
@@ -24,7 +24,7 @@ auto v2 = transformed(v1, [](int i) { return i+1; }); // equivalent
 ```
 ```Python
 # Python
-v1 = [1, 2, 3, 4, 5] 
+v1 = [1, 2, 3, 4, 5]
 v2 = (i+1 for i in v1)
 ```
 
@@ -59,7 +59,7 @@ for line in open("file.txt"):
 ```
 * **print [WIP]**
 ```C++
-// C++14
+// C++
 print("Fifty =", 50);
 ```
 ```Python
@@ -68,6 +68,14 @@ print("Fifty =", 50)
 ```
 * range / xrange
 * reduce
+```C++
+// C++
+reduce([](string a, string b) { return a + b; }, s)
+```
+```Python
+# Python
+reduce(lambda x,y: x + y, ["1","2","3"])
+```
 * slice / islice
 * sorted
 * sum

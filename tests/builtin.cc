@@ -3,6 +3,7 @@
 #include "../py/range.hh"
 #include "../py/open.hh"
 #include "../py/transformed.hh"
+#include "../py/reduce.hh"
 
 using namespace std;
 
@@ -41,6 +42,12 @@ namespace py
                      "test2 test2 test2",
                      "test3"};
     ASSERT_EQ(expected, open("test.txt"));
+  }
+
+  TEST(BuiltIn, reduce) {
+    auto s = {"1", "2", "3"};
+    string expected = "123";
+    ASSERT_EQ(expected, reduce([](string a, string b) { return a + b; }, s));
   }
 }
 
