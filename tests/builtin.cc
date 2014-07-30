@@ -1,9 +1,18 @@
 #include "gtest/gtest.h"
 #include "../py/builtin.hxx"
+#include "../py/range.hh"
+#include "../py/open.hh"
+#include "../py/transformed.hh"
 
-namespace {
+using namespace std;
+
+namespace py
+{
 
   // Tests Zip.
+  TEST(BuiltIn, iprint) {
+    print("Hello world !"); //FIXME cout.set_rbuf
+  }
 
   TEST(BuiltIn, range) {
     vector<int> v = {1, 2, 3, 4, 5};
