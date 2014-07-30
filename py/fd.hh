@@ -1,7 +1,6 @@
 #ifndef _FD_HH
 # define _FD_HH
 
-# include <boost/range.hpp>
 #include <fstream>
 #include <iterator>
 #include <stdexcept>
@@ -25,7 +24,6 @@ namespace py
 
   public:
     typedef std::istream_iterator<line> line_iterator;
-    typedef std::istream_iterator<const line> line_const_iterator;
 
     fd(const std::string& fn, const std::ios_base::openmode& modes)
     {
@@ -36,8 +34,8 @@ namespace py
 
     line_iterator begin() { return line_iterator(*is);  }
     line_iterator end()   { return line_iterator();     }
-    //line_const_iterator begin() const { return line_const_iterator(*is);  }
-    //line_const_iterator end() const   { return line_const_iterator();     }
+    line_iterator begin() const { return line_iterator(*is);  }
+    line_iterator end() const   { return line_iterator();     }
   };
 
 }
