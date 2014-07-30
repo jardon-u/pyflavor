@@ -14,11 +14,13 @@ Core language
 
 * **list comprehension**
 ```C++
+// C++14
 auto v1 = {1, 2, 3, 4, 5};
 auto v2 = v1 | [](int i) { return i+1; }; // v2 is a "range", nothing happened yet
 auto v2 = transformed(v1, [](int i) { return i+1; }); // equivalent
 ```
 ```Python
+# Python
 v1 = [1, 2, 3, 4, 5] 
 v2 = (i+1 for i in v1)
 ```
@@ -43,18 +45,22 @@ to be implemented
 * min
 * **open [WIP]**
 ```C++
+// C++14
 for (auto& line : open("file.txt"))
       ...
 ```
 ```Python
+# Python
 for line in open("file.txt"):
       ...
 ```
 * **print [WIP]**
 ```C++
+// C++14
 print("Fifty =", 50);
 ```
 ```Python
+# Python3
 print("Fifty =", 50)
 ```
 * range / xrange
