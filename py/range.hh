@@ -2,6 +2,7 @@
 # define _RANGE_HH
 
 # include <algorithm>
+# include <initializer_list>
 
 namespace py
 {
@@ -16,6 +17,12 @@ namespace py
     Iter end() { return end_; };
     Iter begin() const { return begin_; };
     Iter end() const { return end_; };
+
+    template <typename T>
+    bool operator==(const T& c)
+    {
+      return std::equal(begin(), end(), c.begin());
+    }
 
   private:
     Iter begin_;

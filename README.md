@@ -36,8 +36,18 @@ Built-in
 https://docs.python.org/2/library/functions.html#all
 
 to be implemented
-* all
-* any
+* all, any [,none]
+```C++
+// C++14
+auto v = {3, 4, 5};
+all(v | [](int i) { return i > 2; })
+any(v | f)
+```
+```Python
+# Python3
+all(i > 2 for i in v1)
+any(f(i) for i in v1)
+```
 * enumerate
 * filter / ifilter
 * format

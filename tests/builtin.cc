@@ -4,13 +4,13 @@
 #include "../py/open.hh"
 #include "../py/transformed.hh"
 #include "../py/reduce.hh"
+#include "../py/predicate.hh"
 
 using namespace std;
 
 namespace py
 {
 
-  // Tests Zip.
   TEST(BuiltIn, iprint) {
     print("Hello world !"); //FIXME cout.set_rbuf
   }
@@ -48,6 +48,19 @@ namespace py
     auto s = {"1", "2", "3"};
     string expected = "123";
     ASSERT_EQ(expected, reduce([](string a, string b) { return a + b; }, s));
+  }
+
+  TEST(BuiltIn, predicate) {
+    auto v1 = {3, 4, 5};
+
+    ASSERT_TRUE(all(v1 | [](int i)  { return i > 2; }));
+    ASSERT_FALSE(all(v1 | [](int i) { return i < 4; }));
+
+    ASSERT_TRUE(any(v1 | [](int i)  { return i == 4; }));
+    ASSERT_FALSE(any(v1 | [](int i) { return i < 3; }));
+
+    ASSERT_TRUE(none(v1 | [](int i)  { return i == 6; }));
+    ASSERT_FALSE(none(v1 | [](int i) { return i > 3; } ));
   }
 }
 

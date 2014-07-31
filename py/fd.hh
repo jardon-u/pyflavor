@@ -35,7 +35,7 @@ namespace py
     line_iterator begin() { return line_iterator(*is);  }
     line_iterator end()   { return line_iterator();     }
     line_iterator begin() const { return line_iterator(*is);  }
-    line_iterator end() const   { return line_iterator();     }
+    line_iterator end()   const { return line_iterator();     }
   };
 
 }
