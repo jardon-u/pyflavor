@@ -5,6 +5,7 @@
 #include "../py/transformed.hh"
 #include "../py/reduce.hh"
 #include "../py/predicate.hh"
+#include "../py/enumerate.hh"
 
 using namespace std;
 
@@ -62,6 +63,19 @@ namespace py
     ASSERT_TRUE(none(v1 | [](int i)  { return i == 6; }));
     ASSERT_FALSE(none(v1 | [](int i) { return i > 3; } ));
   }
+
+  TEST(BuiltIn, enumerate) {
+    auto v = {"1", "2", "3"};
+
+    int i = 0;
+    auto b = v.begin();
+    for (auto t : enumerate(v))
+    {
+      ASSERT_EQ(i++, std::get<0>(t));
+      ASSERT_EQ(*b++, std::get<1>(t));
+    }
+  }
+
 }
 
 int main(int argc, char **argv) {

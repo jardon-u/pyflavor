@@ -49,6 +49,20 @@ all(i > 2 for i in v1)
 any(f(i) for i in v1)
 ```
 * enumerate
+```C++
+// C++
+auto v = {"1", "2", "3"};
+for (auto t : v) {
+    ... std::get<0>(t);
+    ... std::get<1>(t);
+}
+```
+```Python
+# Python
+v = ["1", "2", "3"]
+for t in enumerate(v):
+    ... t[0], t[1]
+```
 * filter / ifilter
 * format
 * getattr
