@@ -28,6 +28,8 @@ v1 = [1, 2, 3, 4, 5]
 v2 = (i+1 for i in v1)
 ```
 
+* slicing [?]
+
 Built-in
 --------
 
@@ -37,7 +39,7 @@ to be implemented
 * all
 * any
 * enumerate
-* filter
+* filter / ifilter
 * format
 * getattr
 * input
@@ -80,3 +82,28 @@ reduce(lambda x,y: x + y, ["1","2","3"])
 * sorted
 * sum
 * zip / izip
+
+Itertools
+---------
+
+* chain
+* compress
+* dropwhile
+* groupby
+* tee
+* takewhile
+* iziplongest
+
+* product
+* permutations
+* combinations
+* combinations_with_replacement
+
+More-itertools
+-----
+
+* chunked
+* collate
+* consumer
+
+
