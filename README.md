@@ -52,7 +52,7 @@ any(f(i) for i in v1)
 ```C++
 // C++
 auto v = {"1", "2", "3"};
-for (auto t : v) {
+for (auto t : enumerate(v)) {
     ... std::get<0>(t);
     ... std::get<1>(t);
 }
