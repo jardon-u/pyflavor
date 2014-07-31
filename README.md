@@ -19,8 +19,8 @@ Core language
 ```C++
 // C++14
 auto v1 = {1, 2, 3, 4, 5};
-auto v2 = v1 | [](int i) { return i+1; }; // v2 is a "range", nothing happened yet
-auto v2 = transformed(v1, [](int i) { return i+1; }); // equivalent
+auto v2 = v1 | [](int i) { return i+1; }; // lazy, nothing happened yet
+auto v2 = transformed(v1, [](int i) { return i+1; }); // same as |, also lazy
 ```
 ```Python
 # Python
@@ -36,9 +36,9 @@ Built-in
 https://docs.python.org/2/library/functions.html#all
 
 to be implemented
-* all, any [,none]
+* **all, any [,none]**
 ```C++
-// C++14
+// C++
 auto v = {3, 4, 5};
 all(v | [](int i) { return i > 2; })
 any(v | f)
@@ -58,9 +58,9 @@ any(f(i) for i in v1)
 * map
 * max
 * min
-* **open [WIP]**
+* **open**
 ```C++
-// C++14
+// C++
 for (auto& line : open("file.txt"))
       ...
 ```
@@ -69,7 +69,7 @@ for (auto& line : open("file.txt"))
 for line in open("file.txt"):
       ...
 ```
-* **print [WIP]**
+* **print**
 ```C++
 // C++
 print("Fifty =", 50);
@@ -79,7 +79,7 @@ print("Fifty =", 50);
 print("Fifty =", 50)
 ```
 * range / xrange
-* reduce
+* **reduce**
 ```C++
 // C++
 reduce([](string a, string b) { return a + b; }, s)
