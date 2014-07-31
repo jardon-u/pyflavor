@@ -53,15 +53,15 @@ any(f(i) for i in v1)
 // C++
 auto v = {"1", "2", "3"};
 for (auto t : enumerate(v)) {
-    ... std::get<0>(t);
-    ... std::get<1>(t);
+    ... std::get<0>(t); // idx
+    ... std::get<1>(t); // value
 }
 ```
 ```Python
 # Python
 v = ["1", "2", "3"]
 for t in enumerate(v):
-    ... t[0], t[1]
+    ... t[0], t[1] // idx, value
 ```
 * filter / ifilter
 * format
