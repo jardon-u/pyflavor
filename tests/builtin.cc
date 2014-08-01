@@ -6,11 +6,12 @@
 #include "../py/reduce.hh"
 #include "../py/predicate.hh"
 #include "../py/enumerate.hh"
+#include "../py/list.hh"
 
 using namespace std;
+using namespace py;
 
-namespace py
-{
+namespace {
 
   TEST(BuiltIn, iprint) {
     print("Hello world !"); //FIXME cout.set_rbuf
@@ -74,6 +75,16 @@ namespace py
       ASSERT_EQ(i++, std::get<0>(t));
       ASSERT_EQ(*b++, std::get<1>(t));
     }
+  }
+
+  TEST(BuiltIn, list) {
+    auto expected = {1, 2, 3};
+    std::vector<int> v1 = py::list({1, 2, 3});
+    ASSERT_TRUE(std::equal(expected.begin(), expected.end(), v1.begin()));
+    std::vector<int> v2 = py::list(v1 | [](int i) { return i+1; });
+
+    expected = {2, 3, 4};
+    ASSERT_TRUE(std::equal(expected.begin(), expected.end(), v1.begin()));
   }
 
 }

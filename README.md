@@ -69,6 +69,17 @@ for t in enumerate(v):
 * input
 * iter
 * list
+```C++
+// C++
+auto v = {1, 2, 3};
+auto v1 = v | [](int i) {return i+1}; // lazy
+std::vector<int> v2 = list(v1);       // concrete
+```
+```Python
+# Python
+v1 = (i+1 for i in [1, 2, 3]) // lazy
+v2 = list(v1)                 // concrete
+```
 * map
 * max
 * min

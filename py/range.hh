@@ -9,6 +9,8 @@ namespace py
   template <typename Iter>
   struct range
   {
+    typedef typename Iter::value_type value_type;
+
     range(Iter begin, Iter end)
       : begin_(begin), end_(end)
     {}
