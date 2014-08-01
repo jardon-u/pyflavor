@@ -86,7 +86,7 @@ namespace {
     std::vector<int> v2 = py::list(v1 | [](int i) { return i+1; });
 
     expected = {2, 3, 4};
-    ASSERT_TRUE(std::equal(expected.begin(), expected.end(), v1.begin()));
+    ASSERT_TRUE(std::equal(expected.begin(), expected.end(), v2.begin()));
   }
 
 }
