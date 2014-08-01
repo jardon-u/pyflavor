@@ -23,7 +23,7 @@ namespace py
         : iter(iter)
       {}
 
-      value_type operator*() { return std::make_tuple(i,*iter); }
+      value_type operator*() { return std::make_tuple(i,*iter); } //FIXME: maybe not a temporary here
       enumerate_iterator& operator++() { ++iter; ++i; return *this; }
       enumerate_iterator operator++(int) { auto orig = *this; ++(*this); return orig; }
       bool operator!=(const enumerate_iterator& x) { return iter != x.iter && i != x.i; }

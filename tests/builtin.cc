@@ -66,14 +66,16 @@ namespace {
   }
 
   TEST(BuiltIn, enumerate) {
-    auto v = {"1", "2", "3"};
+    auto v = {1, 2, 3};
 
-    int i = 0;
+    int k = 0;
     auto b = v.begin();
+    int i, value;
     for (auto t : enumerate(v))
     {
-      ASSERT_EQ(i++, std::get<0>(t));
-      ASSERT_EQ(*b++, std::get<1>(t));
+      std::tie(i, value) = t;
+      ASSERT_EQ(k++, i);
+      ASSERT_EQ(*b++, value);
     }
   }
 
