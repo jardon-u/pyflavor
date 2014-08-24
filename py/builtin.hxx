@@ -1,7 +1,6 @@
 #include <list>
 #include <tuple>
 #include <algorithm>
-#include <boost/iterator/zip_iterator.hpp>
 #include <iostream>
 
 namespace py

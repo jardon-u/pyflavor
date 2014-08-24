@@ -17,7 +17,7 @@ VPATH=tests
 
 
 $(BIN): $(SOURCE)
-	$(CCXX) $(SOURCE) $(CFLAGS) /usr/lib/libgtest.a -lpthread -o $(BIN)
+	$(CCXX) $(SOURCE) $(CFLAGS) -I./gtest/include ./gtest/lib/.libs/libgtest.a -lpthread -o $(BIN)
 
 test: $(BIN)
 	./$(BIN)

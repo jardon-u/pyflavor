@@ -7,6 +7,7 @@
 #include "../py/predicate.hh"
 #include "../py/enumerate.hh"
 #include "../py/list.hh"
+#include "../py/map.hh"
 
 using namespace std;
 using namespace py;
@@ -49,7 +50,18 @@ namespace {
   TEST(BuiltIn, reduce) {
     auto s = {"1", "2", "3"};
     string expected = "123";
-    ASSERT_EQ(expected, reduce([](string a, string b) { return a + b; }, s));
+    ASSERT_EQ(expected,
+              reduce([](string a, string b) { return a + b; }, s));
+  }
+
+  TEST(BuiltIn, imap) {
+    std::vector<string> expected = {"1", "2", "3"};
+    ASSERT_EQ(expected, imap([](string a) { return a; }, expected));
+  }
+
+  TEST(BuiltIn, map) {
+    std::vector<string> expected = {"1", "2", "3"};
+    ASSERT_EQ(expected, map([](string a) { return a; }, expected));
   }
 
   TEST(BuiltIn, predicate) {

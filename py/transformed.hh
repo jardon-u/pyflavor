@@ -25,28 +25,13 @@ namespace py
 
     decltype(f(*iter)) operator*()  { return f(*iter); }
     transformed_iterator& operator++() { ++iter; return *this; }
-    transformed_iterator operator++(int) { auto orig = *this; ++(*this); return orig; }
-    bool operator!=(const transformed_iterator& x) { return iter != x.iter; }
-    bool operator==(const transformed_iterator& x) { return iter == x.iter; }
+    transformed_iterator operator++(int)
+    { auto orig = *this; ++(*this); return orig; }
+    bool operator!=(const transformed_iterator& x)
+    { return iter != x.iter; }
+    bool operator==(const transformed_iterator& x)
+    { return iter == x.iter; }
   };
-
-  template <typename T, typename F>
-  auto transformed(T& range, F f)
-  {
-    //FIXME: check T has begin/end and F is_callable
-    typedef transformed_iterator<typename T::iterator, F> iterator;
-    return py::range<iterator>(iterator(range.begin(), f),
-                               iterator(range.end(), f));
-  }
-
-  template <typename T, typename F>
-  auto operator|(T& range, F f)
-  {
-    //FIXME: check T has begin/end and F is_callable
-    typedef transformed_iterator<typename T::iterator, F> iterator;
-    return py::range<iterator>(iterator(range.begin(), f),
-                               iterator(range.end(), f));
-  }
 }
 
 #endif /* _TRANSFORMED_HH */
