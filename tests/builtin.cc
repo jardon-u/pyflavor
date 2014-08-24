@@ -1,13 +1,5 @@
 #include "gtest/gtest.h"
-#include "../py/builtin.hxx"
-#include "../py/range.hh"
-#include "../py/open.hh"
-#include "../py/transformed.hh"
-#include "../py/reduce.hh"
-#include "../py/predicate.hh"
-#include "../py/enumerate.hh"
-#include "../py/list.hh"
-#include "../py/map.hh"
+#include "../py/py.hh"
 
 using namespace std;
 using namespace py;

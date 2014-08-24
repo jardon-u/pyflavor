@@ -1,3 +1,6 @@
+#ifndef _BUILTIN_HH
+# define _BUILTIN_HH
+
 #include <list>
 #include <tuple>
 #include <algorithm>
@@ -18,3 +21,6 @@ namespace py
     print(args...);
   }
 }
+
+#endif /* _BUILTIN_HH */
+
