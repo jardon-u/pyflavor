@@ -19,8 +19,7 @@ Core language features
 ```C++
 // C++14
 auto v1 = {1, 2, 3, 4, 5};
-auto v2 = v1 | [](int i) { return i+1; }; // lazy, nothing happened yet
-auto v2 = imap([](int i) { return i+1; }, v1); // same as |, also lazy
+auto v2 = v1 | [](int i) { return i+1; }; // lazy, see also map and imap
 ```
 ```Python
 # Python
@@ -80,7 +79,7 @@ std::vector<int> v2 = list(v1);       // concrete
 v1 = (i+1 for i in [1, 2, 3]) // lazy
 v2 = list(v1)                 // concrete
 ```
-* map / imap
+* **map / imap**
 ```C++
 // C++14
 auto v = {1, 2, 3, 4, 5};
@@ -93,7 +92,7 @@ auto v2 = imap([](int i) { return i+1; }, v); // -> generator
 v = [1, 2, 3, 4, 5]
 v1 = map(lambda x: x+1, v)
 # ... or v1 = [i+1 for i in v]
-v2 = (i+1 for i in v) # != imap(..., v) that actually consumes v 
+v2 = (i+1 for i in v) # != itertools.imap(..., v) that actually consumes v 
 ```
 * max
 * min
