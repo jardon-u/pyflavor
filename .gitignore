@@ -11,3 +11,8 @@
 *.lai
 *.la
 *.a
+
+gtest*
+Makefile.rules
+.deps
+runtest
