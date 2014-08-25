@@ -1,7 +1,9 @@
 #ifndef _MAP_HH
 # define _MAP_HH
 
-# include "transformed.hh"
+# include <type_traits>
+# include "internal.hh"
+# include "transformed_iterator.hh"
 # include "list.hh"
 
 namespace py
@@ -9,7 +11,11 @@ namespace py
   template <typename T, typename F>
   auto imap(F f, T& c)
   {
-    //FIXME: check T has begin/end and F is_callable
+    using namespace internal;
+    static_assert(has_member_begin<T>::value, "c.begin must be defined");
+    static_assert(has_member_end<T>::value, "c.end must be defined");
+    static_assert(is_callable<F>::value, "f must be callable");
+
     typedef transformed_iterator<typename T::iterator, F> iterator;
     return py::range<iterator>(iterator(c.begin(), f),
                                iterator(c.end(), f));

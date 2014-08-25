@@ -4,7 +4,6 @@
 #include "builtin.hh"
 #include "range.hh"
 #include "open.hh"
-#include "transformed.hh"
 #include "reduce.hh"
 #include "predicate.hh"
 #include "enumerate.hh"
