@@ -13,15 +13,14 @@ namespace py
     F f;
 
     typedef std::input_iterator_tag iterator_category;
-    typedef decltype(f(*iter)) value_type;
-    typedef std::ptrdiff_t difference_type;
-    typedef value_type* pointer;
-    typedef value_type& reference;
+    typedef decltype(f(*iter))      value_type;
+    typedef std::ptrdiff_t          difference_type;
+    typedef value_type*             pointer;
+    typedef value_type&             reference;
 
     transformed_iterator(I iter, F f)
       : iter(iter), f(f)
-    {
-    }
+    {}
 
     decltype(f(*iter)) operator*()  { return f(*iter); }
     transformed_iterator& operator++() { ++iter; return *this; }

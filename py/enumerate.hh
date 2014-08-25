@@ -13,21 +13,25 @@ namespace py
       int i = 0;
       I iter;
 
-      typedef std::input_iterator_tag iterator_category;
+      typedef std::input_iterator_tag            iterator_category;
       typedef decltype(std::make_tuple(i,*iter)) value_type;
-      typedef std::ptrdiff_t difference_type;
-      typedef value_type* pointer;
-      typedef value_type& reference;
+      typedef std::ptrdiff_t                     difference_type;
+      typedef value_type*                        pointer;
+      typedef value_type&                        reference;
 
       enumerate_iterator(I iter)
         : iter(iter)
       {}
 
-      value_type operator*() { return std::make_tuple(i,*iter); } //FIXME: maybe not a temporary here
+      //FIXME: maybe not a temporary here
+      value_type operator*() { return std::make_tuple(i,*iter); }
       enumerate_iterator& operator++() { ++iter; ++i; return *this; }
-      enumerate_iterator operator++(int) { auto orig = *this; ++(*this); return orig; }
-      bool operator!=(const enumerate_iterator& x) { return iter != x.iter && i != x.i; }
-      bool operator==(const enumerate_iterator& x) { return iter == x.iter && i == x.i; }
+      enumerate_iterator operator++(int)
+      { auto orig = *this; ++(*this); return orig; }
+      bool operator!=(const enumerate_iterator& x)
+      { return iter != x.iter && i != x.i; }
+      bool operator==(const enumerate_iterator& x)
+      { return iter == x.iter && i == x.i; }
     };
   }
 
