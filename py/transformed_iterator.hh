@@ -26,10 +26,10 @@ namespace py
     transformed_iterator& operator++() { ++iter; return *this; }
     transformed_iterator operator++(int)
     { auto orig = *this; ++(*this); return orig; }
-    bool operator!=(const transformed_iterator& x)
-    { return iter != x.iter; }
-    bool operator==(const transformed_iterator& x)
-    { return iter == x.iter; }
+    bool operator!=(const transformed_iterator& rhs)
+    { return iter != rhs.iter; }
+    bool operator==(const transformed_iterator& rhs)
+    { return iter == rhs.iter; }
   };
 }
 

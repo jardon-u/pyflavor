@@ -93,6 +93,17 @@ namespace {
     ASSERT_TRUE(std::equal(expected.begin(), expected.end(), v2.begin()));
   }
 
+  TEST(BuiltIn, filter) {
+    auto v = {1, 2, 3};
+
+    int nb = 0;
+    for (auto i : ifilter([](int x) { return x == 2; }, v))
+    {
+      std::cout << i << std::endl;
+      nb++;
+    }
+    ASSERT_EQ(1, nb);
+  }
 }
 
 int main(int argc, char **argv) {

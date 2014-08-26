@@ -9,6 +9,7 @@
 #include "enumerate.hh"
 #include "list.hh"
 #include "map.hh"
+#include "filter.hh"
 
 #endif /* _PY_HH */
 
