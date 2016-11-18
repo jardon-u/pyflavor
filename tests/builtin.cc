@@ -1,4 +1,7 @@
+
+class gets;
 #include "gtest/gtest.h"
+
 #include "../py/py.hh"
 
 using namespace std;
@@ -53,7 +56,7 @@ namespace {
 
   TEST(BuiltIn, map) {
     std::vector<string> expected = {"1", "2", "3"};
-    ASSERT_EQ(expected, map([](string a) { return a; }, expected));
+    ASSERT_EQ(expected, py::map([](auto a) { return a; }, expected));
   }
 
   TEST(BuiltIn, predicate) {

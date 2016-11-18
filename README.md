@@ -34,7 +34,6 @@ Built-in
 
 https://docs.python.org/2/library/functions.html#all
 
-to be implemented
 * **all, any [,none]**
 ```C++
 // C++
