@@ -107,6 +107,21 @@ namespace {
     }
     ASSERT_EQ(1, nb);
   }
+
+  TEST(BuiltIn, zip) {
+    auto v = {1, 2, 3};
+    auto w = {"3", "2", "1"};
+
+    auto vw = zip(v, w);
+    auto expected = {std::make_tuple(1, "3"),
+                     std::make_tuple(2, "2"),
+                     std::make_tuple(3, "1")};
+
+    for (const auto& a : vw)
+    {
+      cout << std::get<0>(a) << endl;
+    }
+  }
 }
 
 int main(int argc, char **argv) {

@@ -15,10 +15,10 @@ namespace py
       : begin_(begin), end_(end)
     {}
 
-    Iter begin() { return begin_; };
-    Iter end() { return end_; };
+    Iter begin()       { return begin_; };
+    Iter end()         { return end_;   };
     Iter begin() const { return begin_; };
-    Iter end() const { return end_; };
+    Iter end() const   { return end_;   };
 
     template <typename T>
     bool operator==(const T& c)
@@ -39,4 +39,3 @@ namespace py
 }
 
 #endif /* _RANGE_HH */
-

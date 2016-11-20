@@ -1,7 +1,9 @@
 #ifndef _INTERNAL_HH
 # define _INTERNAL_HH
 
+# include <tuple>
 # include <type_traits>
+# include <utility>
 
 # define GENERATE_HAS_MEMBER(member)                                    \
   template < class T >                                                  \
@@ -59,7 +61,31 @@ namespace py
       static const bool value = sizeof(test<Derived>(0)) == sizeof(yes);
     };
   }
+
+  template<int ...>
+  struct seq { };
+
+  template<int N, int ...S>
+  struct gens : gens<N-1, N-1, S...> { };
+
+  template<int ...S>
+  struct gens<0, S...> {
+    typedef seq<S...> type;
+  };
+
+
+  template<typename Function, typename Tuple, size_t ... I>
+  auto apply(Function f, Tuple t, std::index_sequence<I ...>)
+  {
+    return f(std::get<I>(t) ...);
+  }
+
+  template<typename Function, typename Tuple>
+  auto apply(Function f, Tuple t)
+  {
+    static constexpr auto size = std::tuple_size<Tuple>::value;
+    return apply(f, t, std::make_index_sequence<size>{});
+  }
 }
 
 #endif /* _INTERNAL_HH */
-

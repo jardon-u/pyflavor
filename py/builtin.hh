@@ -9,7 +9,7 @@
 namespace py
 {
   /// print
-  //FIXME: sep and end configurable
+  //FIXME: make sep and end configurable
   void print() {
     std::cout << std::endl;
   }
@@ -23,4 +23,3 @@ namespace py
 }
 
 #endif /* _BUILTIN_HH */
-

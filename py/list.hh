@@ -6,6 +6,13 @@
 
 namespace py
 {
+  // template<typename T>
+  // struct list : public std::vector<T>
+  // {
+  //   template <typename U>
+  //   bool operator==(const U& v);
+  // };
+
   template <typename T>
   auto list(const T& r)
     -> std::vector<typename T::value_type>
@@ -22,4 +29,3 @@ namespace py
 }
 
 #endif /* _LIST_HH */
-
