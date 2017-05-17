@@ -54,6 +54,7 @@ namespace py
                                iterator(c.end(), c.end(), f));
   }
 
+  // FIXME: support passing non lvalue as c
   template <typename F, typename T>
   auto filter(F f, T& c)
   {
@@ -62,4 +63,3 @@ namespace py
 }
 
 #endif /* _FILTER_HH */
-

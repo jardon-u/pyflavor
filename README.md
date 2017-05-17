@@ -64,17 +64,13 @@ for t in enumerate(v):
 * **filter / ifilter**
 ```C++
 // C++
-auto v = {"1", "2", "3"};
-for (auto t : enumerate(v)) {
-    ... std::get<0>(t); // idx
-    ... std::get<1>(t); // value
-}
+auto v = {1,2,3};
+std::vector<int> r = filter([](int x) { return x == 2; }, v);
 ```
 ```Python
 # Python
-v = ["1", "2", "3"]
-for t in enumerate(v):
-    ... t[0], t[1] // idx, value
+v = {1,2,3}
+r = filter(lambda x: x == 2, v)
 ```
 * format
 * getattr
