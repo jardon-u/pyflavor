@@ -36,7 +36,7 @@ https://docs.python.org/2/library/functions.html#all
 
 * **all, any [,none]**
 ```C++
-// C++
+// C++14
 auto v = {3, 4, 5};
 all(v | [](int i) { return i > 2; })
 any(v | f)
@@ -48,7 +48,7 @@ any(f(i) for i in v1)
 ```
 * **enumerate**
 ```C++
-// C++
+// C++14
 auto v = {"1", "2", "3"};
 for (auto t : enumerate(v)) {
     ... std::get<0>(t); // idx
@@ -59,17 +59,17 @@ for (auto t : enumerate(v)) {
 # Python
 v = ["1", "2", "3"]
 for t in enumerate(v):
-    ... t[0], t[1] // idx, value
+    ... t[0], t[1] # idx, value
 ```
 * **filter / ifilter**
 ```C++
-// C++
-auto v = {1,2,3};
+// C++14
+auto v = {1, 2, 3};
 std::vector<int> r = filter([](int x) { return x == 2; }, v);
 ```
 ```Python
 # Python
-v = {1,2,3}
+v = [1, 2, 3]
 r = filter(lambda x: x == 2, v)
 ```
 * format
@@ -78,15 +78,15 @@ r = filter(lambda x: x == 2, v)
 * iter
 * list
 ```C++
-// C++
+// C++14
 auto v = {1, 2, 3};
 auto v1 = v | [](int i) {return i+1}; // lazy
 std::vector<int> v2 = list(v1);       // concrete
 ```
 ```Python
 # Python
-v1 = (i+1 for i in [1, 2, 3]) // lazy
-v2 = list(v1)                 // concrete
+v1 = (i+1 for i in [1, 2, 3]) # lazy
+v2 = list(v1)                 # concrete
 ```
 * **map / imap**
 ```C++
@@ -118,7 +118,7 @@ for line in open("file.txt"):
 ```
 * **print**
 ```C++
-// C++
+// C++14
 print("Fifty =", 50);
 ```
 ```Python
@@ -128,7 +128,7 @@ print("Fifty =", 50)
 * range / xrange
 * **reduce**
 ```C++
-// C++
+// C++14
 reduce([](auto a, auto b) { return a + b; }, s)
 ```
 ```Python
@@ -140,7 +140,7 @@ reduce(lambda x,y: x + y, ["1","2","3"])
 * sum
 * zip / izip
 ```C++
-// C++
+// C++14
 vector<int>    v = {1, 2, 3};
 vector<string> w = {"3", "2", "1"};
 for (auto t : zip(v, w)) {
@@ -150,8 +150,8 @@ for (auto t : zip(v, w)) {
 ```
 ```Python
 # Python3
-v = {1, 2, 3}
-w = {"3", "2", "1"}
+v = [1, 2, 3]
+w = ["3", "2", "1"]
 for t in zip(vw):
     t[1], t[2]
 ```
