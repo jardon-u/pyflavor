@@ -7,7 +7,7 @@ Compilation
 ===========
 compiler must support C++14 (g++-4.8+ / clang 4.0)
 ```sh
-$ ./configure && make
+$ cmake . && make
 ```
 Documentation
 =============
