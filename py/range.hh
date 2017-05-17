@@ -26,6 +26,17 @@ namespace py
       return std::equal(begin(), end(), c.begin());
     }
 
+    // todo(ugo) allow len only in this case
+    size_t size() const
+    {
+      size_t s = 0;
+      Iter i = begin();
+      while (i != end()) {
+        ++i; ++s;
+      }
+      return s;
+    }
+
   private:
     Iter begin_;
     Iter end_;
