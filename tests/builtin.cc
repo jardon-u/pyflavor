@@ -23,7 +23,7 @@ namespace {
   TEST(BuiltIn, transformed) {
     auto expected = {2, 3, 4, 5, 6};
     auto v = {1, 2, 3, 4, 5};
-    ASSERT_EQ(expected, v | [](int i) { return i+1; });
+    ASSERT_EQ(expected, v | [](auto i) { return i+1; });
   }
 
   TEST(BuiltIn, for_transformed) {
@@ -31,7 +31,7 @@ namespace {
     auto v = {1, 2, 3, 4, 5};
 
     auto b = expected.begin();
-    for (const auto& e : v | [](int i) { return i+1; })
+    for (const auto& e : v | [](auto i) { return i+1; })
       ASSERT_EQ(e, *b++);
   }
 
@@ -43,10 +43,10 @@ namespace {
   }
 
   TEST(BuiltIn, reduce) {
-    auto s = {"1", "2", "3"};
+    std::vector<string> s = {"1", "2", "3"};
     string expected = "123";
     ASSERT_EQ(expected,
-              reduce([](string a, string b) { return a + b; }, s));
+              reduce([](auto a, auto b) { return a + b; }, s));
   }
 
   TEST(BuiltIn, imap) {
@@ -121,6 +121,22 @@ namespace {
       ASSERT_EQ(std::get<1>(e), w[i]);
       i++;
     }
+  }
+
+  TEST(BuiltIn, zip_write) {
+    vector<int>    v = {1, 2, 3};
+    vector<string> w = {"3", "2", "1"};
+    auto vw = zip(v, w);
+
+    // Note the confusion on const here:
+    // the tuple is const but contains non const references
+    for (const auto& e : vw)
+    {
+      std::get<0>(e) = 1;
+    }
+    ASSERT_EQ(1, v[0]);
+    ASSERT_EQ(1, v[1]);
+    ASSERT_EQ(1, v[2]);
   }
 }
 

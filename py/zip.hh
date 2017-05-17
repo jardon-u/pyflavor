@@ -24,6 +24,7 @@ namespace py
       }
 
       // returns a tuple of non-const references
+      // make iteration with auto& safe
       ref_type operator*() {
         return get_elements(make_index_sequence<sizeof...(Iters)>());
       }
@@ -41,6 +42,8 @@ namespace py
       {
         return _iterators != x._iterators;
       }
+
+      //FIXME: handle zipping containers of different sizes
       bool operator==(const zip_iterator& x)
       {
         return _iterators == x._iterators;

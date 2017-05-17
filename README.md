@@ -133,7 +133,7 @@ print("Fifty =", 50)
 * **reduce**
 ```C++
 // C++
-reduce([](string a, string b) { return a + b; }, s)
+reduce([](auto a, auto b) { return a + b; }, s)
 ```
 ```Python
 # Python
