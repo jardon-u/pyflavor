@@ -31,7 +31,7 @@ namespace {
     auto v = {1, 2, 3, 4, 5};
 
     auto b = expected.begin();
-    for (auto e : v | [](int i) { return i+1; })
+    for (const auto& e : v | [](int i) { return i+1; })
       ASSERT_EQ(e, *b++);
   }
 
@@ -78,7 +78,7 @@ namespace {
     int k = 0;
     auto b = v.begin();
     int i, value;
-    for (auto t : enumerate(v))
+    for (const auto& t : enumerate(v))
     {
       std::tie(i, value) = t;
       ASSERT_EQ(k++, i);
@@ -100,26 +100,27 @@ namespace {
     auto v = {1, 2, 3};
 
     int nb = 0;
-    for (auto i : ifilter([](int x) { return x == 2; }, v))
+    for (const auto& i : ifilter([](int x) { return x == 2; }, v))
     {
-      std::cout << i << std::endl;
+      ASSERT_EQ(2, i);
       nb++;
     }
     ASSERT_EQ(1, nb);
   }
 
   TEST(BuiltIn, zip) {
-    auto v = {1, 2, 3};
-    auto w = {"3", "2", "1"};
+    std::vector<int> v = {1, 2, 3};
+    std::vector<std::string> w = {"3", "2", "1"};
 
     auto vw = zip(v, w);
-    auto expected = {std::make_tuple(1, "3"),
-                     std::make_tuple(2, "2"),
-                     std::make_tuple(3, "1")};
 
-    for (const auto& a : vw)
+    ASSERT_EQ(vw.size(), v.size());
+    size_t i = 0;
+    for (const auto& e : vw)
     {
-      cout << std::get<0>(a) << endl;
+      ASSERT_EQ(std::get<0>(e), v[i]);
+      ASSERT_EQ(std::get<1>(e), w[i]);
+      i++;
     }
   }
 }
