@@ -4,6 +4,7 @@
 # include <tuple>
 # include <type_traits>
 # include <utility>
+# include <type_traits>
 
 # define GENERATE_HAS_MEMBER(member)                                    \
   template < class T >                                                  \
@@ -38,7 +39,7 @@ namespace py
     GENERATE_HAS_MEMBER(begin)
     GENERATE_HAS_MEMBER(end)
 
-    // :(
+    // :( Use is_invocable from C++1y ?
     template<typename T>
     struct is_callable
     {
@@ -62,30 +63,23 @@ namespace py
     };
   }
 
-  template<int ...>
-  struct seq { };
-
-  template<int N, int ...S>
-  struct gens : gens<N-1, N-1, S...> { };
-
-  template<int ...S>
-  struct gens<0, S...> {
-    typedef seq<S...> type;
+  template<std::size_t... Ints>
+  class index_sequence {
+    static constexpr std::size_t size() noexcept { return sizeof...(Ints); }
   };
 
+  template<std::size_t N, std::size_t... S>
+  struct make_index_sequence_helper : make_index_sequence_helper<N-1, N-1, S...> {};
+  template<std::size_t... S>
+  struct make_index_sequence_helper<std::size_t(0), S...> {
+    using type = index_sequence<S...>;
+  };
 
-  template<typename Function, typename Tuple, size_t ... I>
-  auto apply(Function f, Tuple t, std::index_sequence<I ...>)
-  {
-    return f(std::get<I>(t) ...);
-  }
+  template<std::size_t N>
+  using make_index_sequence = typename make_index_sequence_helper<N>::type;
 
-  template<typename Function, typename Tuple>
-  auto apply(Function f, Tuple t)
-  {
-    static constexpr auto size = std::tuple_size<Tuple>::value;
-    return apply(f, t, std::make_index_sequence<size>{});
-  }
+  template<typename...Args>
+  using index_sequence_for = make_index_sequence<sizeof...(Args)>;
 }
 
 #endif /* _INTERNAL_HH */
