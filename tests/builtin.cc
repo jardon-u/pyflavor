@@ -109,9 +109,8 @@ namespace {
   }
 
   TEST(BuiltIn, zip) {
-    std::vector<int> v = {1, 2, 3};
-    std::vector<std::string> w = {"3", "2", "1"};
-
+    vector<int>    v = {1, 2, 3};
+    vector<string> w = {"3", "2", "1"};
     auto vw = zip(v, w);
 
     ASSERT_EQ(vw.size(), v.size());

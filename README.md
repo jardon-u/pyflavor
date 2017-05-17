@@ -5,7 +5,7 @@ Bring Python flavor to C++
 
 Compilation
 ===========
-compiler must support C++14 (g++-4.8+)
+compiler must support C++14 (g++-4.8+ / clang 4.0)
 ```sh
 $ ./configure && make
 ```
@@ -105,7 +105,7 @@ auto v2 = imap([](int i) { return i+1; }, v); // -> generator
 v = [1, 2, 3, 4, 5]
 v1 = map(lambda x: x+1, v)
 # ... or v1 = [i+1 for i in v]
-v2 = (i+1 for i in v) # != itertools.imap(..., v) that actually consumes v 
+v2 = (i+1 for i in v) # != itertools.imap(..., v) that actually consumes v
 ```
 * max
 * min
@@ -143,6 +143,22 @@ reduce(lambda x,y: x + y, ["1","2","3"])
 * sorted
 * sum
 * zip / izip
+```C++
+// C++
+vector<int>    v = {1, 2, 3};
+vector<string> w = {"3", "2", "1"};
+for (auto t : zip(v, w)) {
+    ... std::get<0>(t); // == v[i]
+    ... std::get<1>(t); // == w[i]
+}
+```
+```Python
+# Python3
+v = {1, 2, 3}
+w = {"3", "2", "1"}
+for t in zip(vw):
+    t[1], t[2]
+```
 
 Itertools
 ---------
@@ -166,5 +182,3 @@ More-itertools
 * chunked
 * collate
 * consumer
-
-
