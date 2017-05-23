@@ -63,23 +63,39 @@ namespace py
     };
   }
 
-  template<std::size_t... Ints>
-  class index_sequence {
-    static constexpr std::size_t size() noexcept { return sizeof...(Ints); }
-  };
+  // if std::index_sequence does not compile with clang++>4.0,
+  // your stdlib might need to be updated
 
-  template<std::size_t N, std::size_t... S>
-  struct make_index_sequence_helper : make_index_sequence_helper<N-1, N-1, S...> {};
-  template<std::size_t... S>
-  struct make_index_sequence_helper<std::size_t(0), S...> {
-    using type = index_sequence<S...>;
-  };
+  // template<std::size_t... Ints>
+  // class index_sequence {
+  //   static constexpr std::size_t size() noexcept { return sizeof...(Ints); }
+  // };
+  // template<std::size_t N, std::size_t... S>
+  // struct make_index_sequence_helper : make_index_sequence_helper<N-1, N-1, S...> {};
+  // template<std::size_t... S>
+  // struct make_index_sequence_helper<std::size_t(0), S...> {
+  //   using type = index_sequence<S...>;
+  // };
+  // template<std::size_t N>
+  // using make_index_sequence = typename make_index_sequence_helper<N>::type;
+  // template<typename...Args>
+  // using index_sequence_for = make_index_sequence<sizeof...(Args)>;
 
-  template<std::size_t N>
-  using make_index_sequence = typename make_index_sequence_helper<N>::type;
 
-  template<typename...Args>
-  using index_sequence_for = make_index_sequence<sizeof...(Args)>;
+  template <typename Tuple, typename Pred>
+  constexpr bool any_of_impl(Tuple const&, Pred&&, std::index_sequence<>) {
+    return false;
+  }
+
+  template <typename Tuple, typename Pred, size_t first, size_t... is>
+  constexpr bool any_of_impl(const Tuple& t, Pred&& pred, std::index_sequence<first, is...>) {
+    return pred(std::get<first>(t)) || any_of_impl(t, std::forward<Pred>(pred), std::index_sequence<is...>{});
+  }
+
+  template <typename... Elements, typename Pred, size_t... is>
+  constexpr bool any_of(const std::tuple<Elements...>& t, Pred&& pred) {
+    return any_of_impl(t, std::forward<Pred>(pred), std::index_sequence_for<Elements...>{});
+  }
 }
 
 #endif /* _INTERNAL_HH */
