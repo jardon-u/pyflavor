@@ -9,8 +9,13 @@ using namespace py;
 
 namespace {
 
-  TEST(BuiltIn, iprint) {
-    print("Hello world !"); //FIXME cout.set_rbuf
+  TEST(BuiltIn, println) {
+    //FIXME: allow configuring end and sep
+    //FIXME: allow cout.set_rbuf
+    println("Hello world !");
+    println(std::make_tuple(1, "4"));
+    println({"A", "B"});
+    println(std::make_tuple(make_tuple(1, "4"), py::list({"A", "B"})));
   }
 
   TEST(BuiltIn, range) {
@@ -109,6 +114,21 @@ namespace {
   }
 
   TEST(BuiltIn, zip) {
+    vector<int>    v = {1, 2, 3};
+    vector<string> w = {"3", "2", "1"};
+    auto vw = zip(v, w);
+
+    ASSERT_EQ(vw.size(), v.size());
+    size_t i = 0;
+    for (const auto& e : vw)
+    {
+      ASSERT_EQ(std::get<0>(e), v[i]);
+      ASSERT_EQ(std::get<1>(e), w[i]);
+      i++;
+    }
+  }
+
+  TEST(BuiltIn, zip_variable_length) {
     vector<int>    v = {1, 2, 3};
     vector<string> w = {"3", "2", "1"};
     auto vw = zip(v, w);

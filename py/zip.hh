@@ -14,24 +14,30 @@ namespace py
     {
       using iterator_category = std::input_iterator_tag;
       using value_type = std::tuple<typename std::iterator_traits<Iters>::value_type...>;
-      using reference  = value_type&;
-      using pointer    = value_type*;
-      using ref_type = std::tuple<typename std::iterator_traits<Iters>::value_type&...>;
+      //FIXME: Is it OK to set the following reference and pointer type ? what about value_type&/* ?
+      using reference  = std::tuple<typename std::iterator_traits<Iters>::value_type&...>;
+      using pointer    = std::tuple<typename std::iterator_traits<Iters>::value_type*...>;
 
-      zip_iterator(Iters... iters)
+      zip_iterator(Iters&&... iters)
       {
-        _iterators = std::make_tuple(iters...);
+        // std::forward is equivalent to { return (is_lvalue_reference<T>::value) ? param : std::move(param); }
+        // i.e. if iter is a temporary (rvalue ref) the value get moved to the tuple, copied otherwise
+        _iterators = std::make_tuple(std::forward<Iters>(iters)...);
       }
 
-      // returns a tuple of non-const references
-      // make iteration with auto& safe
-      ref_type operator*() {
-        return get_elements(make_index_sequence<sizeof...(Iters)>());
+      // return a tuple of non-const references
+      //FIXME: make iteration with auto& safe. i.e. store the current tuple
+      reference operator*() {
+        return get_elements(std::make_index_sequence<sizeof...(Iters)>());
       }
 
       zip_iterator operator++()
       {
-        increment_iterators(make_index_sequence<sizeof...(Iters)>());
+// #if __cplusplus > 201402L // C++1z
+//         std::apply([](auto& it) -> std::advance(it, 1), _iterators);
+// #elseif
+        increment_iterators(std::make_index_sequence<sizeof...(Iters)>());
+// #endif
         return *this;
       }
       zip_iterator& operator++(int)
@@ -53,24 +59,30 @@ namespace py
 
     private:
       template<size_t ...Is>
-      ref_type get_elements(index_sequence<Is...>) {
+      reference get_elements(std::index_sequence<Is...>) {
         return std::tie(*std::get<Is>(_iterators)...);
       }
 
-      template<size_t ...Is>
-      void increment_iterators(index_sequence<Is...>) {
-         auto l = { (++(std::get<Is>(_iterators)), 0)... };
-         (void) l;
+      template<size_t... Is>
+      void increment_iterators(std::index_sequence<Is...>) {
+#if __cplusplus > 201402L // C++1z
+        (++(std::get<Is>(_iterators)), ...);
+#else // c++14
+        auto l = { (++(std::get<Is>(_iterators)), 0)... };
+        (void) l;
+#endif
        }
     };
   }
 
   template <typename... Container>
-  auto zip(Container&... containers)
+  auto zip(Container&&... containers)
   {
-    typedef zip_iterator<typename Container::iterator...> iterator;
-    return py::range<iterator>(iterator(std::begin(containers)...),
-                               iterator(std::end(containers)...));
+    // std::decay strips cv-qualifier
+    // http://www.cplusplus.com/reference/type_traits/decay/
+    typedef zip_iterator<typename std::decay<Container>::type::iterator...> iterator;
+    return py::range<iterator>(iterator(std::begin(std::forward<Container>(containers))...),
+                               iterator(std::end(std::forward<Container>(containers))...));
   }
 }
 
