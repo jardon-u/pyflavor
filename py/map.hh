@@ -2,6 +2,7 @@
 # define _MAP_HH
 
 # include <type_traits>
+# include <utility>
 # include "internal.hh"
 # include "transformed_iterator.hh"
 # include "list.hh"
@@ -9,7 +10,7 @@
 namespace py
 {
   template <typename T, typename F>
-  auto imap(F f, T& c)
+  auto imap(const F& f, T& c)
   {
     using namespace internal;
     static_assert(has_member_begin<T>::value, "c.begin must be defined");
@@ -22,17 +23,16 @@ namespace py
   }
 
   template <typename T, typename F>
-  auto operator|(T& c, F f)
+  auto operator|(T& c, const F& f)
   {
     return imap(f, c);
   }
 
   template <typename T, typename F>
-  auto map(F f, T& c)
+  auto map(const F& f, T& c)
   {
     return list(imap(f, c));
   }
 }
 
 #endif /* _MAP_HH */
-

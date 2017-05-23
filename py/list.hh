@@ -14,17 +14,17 @@ namespace py
   // };
 
   template <typename T>
-  auto list(const T& r)
+  auto list(const T& container)
     -> std::vector<typename T::value_type>
   {
-    return std::vector<typename T::value_type>(r.begin(), r.end());
+    return std::vector<typename T::value_type>(container.begin(), container.end());
   }
 
   template <typename T>
-  auto list(const std::initializer_list<T>& r)
+  auto list(const std::initializer_list<T>& container)
     -> std::vector<T>
   {
-    return std::vector<T>(r.begin(), r.end());
+    return std::vector<T>(container.begin(), container.end());
   }
 }
 

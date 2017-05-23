@@ -18,7 +18,7 @@ namespace py
     typedef value_type*             pointer;
     typedef value_type&             reference;
 
-    transformed_iterator(I iter, F f)
+    transformed_iterator(I iter, const F& f)
       : iter(iter), f(f)
     {}
 
@@ -34,4 +34,3 @@ namespace py
 }
 
 #endif /* _TRANSFORMED_HH */
-

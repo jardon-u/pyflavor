@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/ugo/dev/pyflavor",
+  "command": "/usr/local/bin/clang++    -I/home/ugo/dev/pyflavor/py -I/usr/local/include    --std=c++14 -Wall -o CMakeFiles/runtest.dir/tests/builtin.cc.o -c /home/ugo/dev/pyflavor/tests/builtin.cc",
+  "file": "/home/ugo/dev/pyflavor/tests/builtin.cc"
+}
+]
