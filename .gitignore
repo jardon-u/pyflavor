@@ -16,3 +16,4 @@ gtest*
 Makefile.rules
 .deps
 runtest
+CMakeFiles
