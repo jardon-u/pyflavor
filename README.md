@@ -17,7 +17,7 @@ Core language features
 
 * **list comprehension**
 ```C++
-// C++14
+// C++
 auto v1 = {1, 2, 3, 4, 5};
 auto v2 = v1 | [](int i) { return i+1; }; // lazy, see also map and imap
 ```
@@ -36,7 +36,7 @@ https://docs.python.org/2/library/functions.html#all
 
 * **all, any [,none]**
 ```C++
-// C++14
+// C++
 auto v = {3, 4, 5};
 all(v | [](int i) { return i > 2; })
 any(v | f)
@@ -48,7 +48,7 @@ any(f(i) for i in v1)
 ```
 * **enumerate**
 ```C++
-// C++14
+// C++
 auto v = {"1", "2", "3"};
 for (auto t : enumerate(v)) {
     ... std::get<0>(t); // idx
@@ -63,7 +63,7 @@ for t in enumerate(v):
 ```
 * **filter / ifilter**
 ```C++
-// C++14
+// C++
 auto v = {1, 2, 3};
 std::vector<int> r = filter([](int x) { return x == 2; }, v);
 ```
@@ -78,7 +78,7 @@ r = filter(lambda x: x == 2, v)
 * iter
 * list
 ```C++
-// C++14
+// C++
 auto v = {1, 2, 3};
 auto v1 = v | [](int i) {return i+1}; // lazy
 std::vector<int> v2 = list(v1);       // concrete
@@ -90,7 +90,7 @@ v2 = list(v1)                 # concrete
 ```
 * **map / imap**
 ```C++
-// C++14
+// C++
 auto v = {1, 2, 3, 4, 5};
 auto v1 = map([](int i) { return i+1; }, v);  // -> new vector
 auto v2 = imap([](int i) { return i+1; }, v); // -> generator
@@ -118,7 +118,7 @@ for line in open("file.txt"):
 ```
 * **print**
 ```C++
-// C++14
+// C++
 print("Fifty =", 50);
 ```
 ```Python
@@ -128,7 +128,7 @@ print("Fifty =", 50)
 * range / xrange
 * **reduce**
 ```C++
-// C++14
+// C++
 reduce([](auto a, auto b) { return a + b; }, s)
 ```
 ```Python
@@ -140,7 +140,7 @@ reduce(lambda x,y: x + y, ["1","2","3"])
 * sum
 * zip / izip
 ```C++
-// C++14
+// C++
 vector<int>    v = {1, 2, 3};
 vector<string> w = {"3", "2", "1"};
 for (auto t : zip(v, w)) {
