@@ -19,10 +19,11 @@ namespace py
       using pointer    = std::tuple<typename std::iterator_traits<Iters>::value_type*...>;
 
       zip_iterator(Iters&&... iters)
+        : _iterators(std::make_tuple(std::forward<Iters>(iters)...))
       {
         // std::forward is equivalent to { return (is_lvalue_reference<T>::value) ? param : std::move(param); }
         // i.e. if iter is a temporary (rvalue ref) the value get moved to the tuple, copied otherwise
-        _iterators = std::make_tuple(std::forward<Iters>(iters)...);
+
       }
 
       // return a tuple of non-const references

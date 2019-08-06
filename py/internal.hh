@@ -6,6 +6,52 @@
 # include <utility>
 # include <type_traits>
 
+// std::index_sequence might not be defined if libstdc++ is too old, regardless of the compiler version
+# if !defined(__cpp_lib_integer_sequence) || (__cpp_lib_integer_sequence < 201304)
+// copied from GCC master branch
+namespace std
+{
+  /// Class template integer_sequence
+  template<typename _Tp, _Tp... _Idx>
+  struct integer_sequence
+  {
+    typedef _Tp value_type;
+    static constexpr size_t size() { return sizeof...(_Idx); }
+  };
+
+  template<typename _Tp, _Tp _Num,
+	   typename _ISeq = typename std::_Build_index_tuple<_Num>::__type>
+  struct _Make_integer_sequence;
+
+  template<typename _Tp, _Tp _Num,  size_t... _Idx>
+  struct _Make_integer_sequence<_Tp, _Num, _Index_tuple<_Idx...>>
+  {
+    static_assert( _Num >= 0, "Cannot make integer sequence of negative length" );
+
+    typedef integer_sequence<_Tp, static_cast<_Tp>(_Idx)...> __type;
+  };
+
+  /// Alias template make_integer_sequence
+  template<typename _Tp, _Tp _Num>
+  using make_integer_sequence
+  = typename _Make_integer_sequence<_Tp, _Num>::__type;
+
+  /// Alias template index_sequence
+  template<size_t... _Idx>
+  using index_sequence = integer_sequence<size_t, _Idx...>;
+
+  /// Alias template make_index_sequence
+  template<size_t _Num>
+  using make_index_sequence = make_integer_sequence<size_t, _Num>;
+
+  /// Alias template index_sequence_for
+  template<typename... _Types>
+  using index_sequence_for = make_index_sequence<sizeof...(_Types)>;
+} // end of namespace
+
+# endif // end of !defined(__cpp_lib_integer_sequence) || (__cpp_lib_integer_sequence < 201304)
+
+
 # define GENERATE_HAS_MEMBER(member)                                    \
   template < class T >                                                  \
   class HasMember_##member                                              \
@@ -63,25 +109,6 @@ namespace py
     };
   }
 
-  // if std::index_sequence does not compile with clang++>4.0,
-  // your stdlib might need to be updated
-
-  // template<std::size_t... Ints>
-  // class index_sequence {
-  //   static constexpr std::size_t size() noexcept { return sizeof...(Ints); }
-  // };
-  // template<std::size_t N, std::size_t... S>
-  // struct make_index_sequence_helper : make_index_sequence_helper<N-1, N-1, S...> {};
-  // template<std::size_t... S>
-  // struct make_index_sequence_helper<std::size_t(0), S...> {
-  //   using type = index_sequence<S...>;
-  // };
-  // template<std::size_t N>
-  // using make_index_sequence = typename make_index_sequence_helper<N>::type;
-  // template<typename...Args>
-  // using index_sequence_for = make_index_sequence<sizeof...(Args)>;
-
-
   template <typename Tuple, typename Pred>
   constexpr bool any_of_impl(Tuple const&, Pred&&, std::index_sequence<>) {
     return false;
@@ -96,6 +123,6 @@ namespace py
   constexpr bool any_of(const std::tuple<Elements...>& t, Pred&& pred) {
     return any_of_impl(t, std::forward<Pred>(pred), std::index_sequence_for<Elements...>{});
   }
-}
+} // end of namespace py
 
 #endif /* _INTERNAL_HH */

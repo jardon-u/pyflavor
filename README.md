@@ -9,6 +9,22 @@ compiler must support C++14 (g++-4.8+ / clang 4.0)
 ```sh
 $ cmake . && make
 ```
+
+Note that on Ubuntu 14.04, you need to build libgtest yourself:
+```sh
+sudo apt-get install libgtest-dev
+cd /usr/src/gtest
+sudo cmake CMakeLists.txt
+sudo make
+# copy or symlink libgtest.a and libgtest_main.a to your /usr/lib folder
+sudo cp *.a /usr/lib
+```
+
+Clang 4.0 for Ubuntu 14.04 can be found here:
+http://releases.llvm.org/4.0.0/clang+llvm-4.0.0-x86_64-linux-gnu-ubuntu-14.04.tar.xz
+
+You may also need to update the stdlib by installing g++ 4.9
+
 Documentation
 =============
 

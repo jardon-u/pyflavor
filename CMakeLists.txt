@@ -2,8 +2,8 @@ cmake_minimum_required (VERSION 2.8.11)
 
 project(PYFLAVOR)
 
-set(CMAKE_CXX_COMPILER "/usr/local/bin/clang++")
-set(CMAKE_C_COMPILER "/usr/local/bin/clang")
+set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+set(CMAKE_C_COMPILER "/usr/bin/clang")
 
 include_directories(py)
 
